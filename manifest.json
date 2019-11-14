@@ -1,7 +1,7 @@
 {
     "name": "Snek (Local Version)",
     "short_name": "Snek",
-    "start_url": "/",
+    "start_url": ".",
     "display": "standalone",
     "theme_color": "#CCDDDD",
     "background_color": "#2c3e50",
