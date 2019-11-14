@@ -1,0 +1,205 @@
+:root {
+    --factor: 1.3;
+    --base: 4vmin;
+    --space-5: calc(var(--factor) * var(--space-4));
+    --space-4: calc(var(--factor) * var(--space-3));
+    --space-3: calc(var(--factor) * var(--space-2));
+    --space-2: calc(var(--factor) * var(--space-1));
+    --space-1: calc(var(--factor) * var(--space-0));
+    --space-0: var(--base);
+} 
+
+
+
+@font-face {
+	font-family:"PressStart2P";
+	src:url("PressStart2P.ttf");
+}
+
+
+
+html {
+	font-family:"PressStart2P", sans-serif;
+	touch-action:none;
+	background-color:#2c3e50;
+	font-size:4vmin;
+}
+
+
+h1, h2 {
+	margin: 0;
+}
+h1 {
+	font-size: var(--space-5);
+}
+h2 {
+	font-size: var(--space-2);
+}
+
+
+button {
+	outline:none;
+	border:0;
+	font-family:"PressStart2P", sans-serif;
+	font-size:4vmin;
+	background-color:#cdd;
+	color:#2c3e50;
+	padding:2vmin 3vmin 2vmin 3vmin;
+	border: 1vmin solid #cdd;
+	transition: color 0.2s, background-color 0.2s;
+}
+button:active {
+	background-color:#2c3e50;
+	color:#cdd;
+}
+button.secondary {
+	background-color:#2c3e50;
+	color:#cdd;
+}
+button.secondary:active {
+	background-color:#cdd;
+	color:#2c3e50;
+}
+
+
+
+#grid {
+	position:fixed;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	width:100vmin;
+	height:100vmin;
+	background-color:#cdd;
+	display:grid;
+	grid-template-rows:repeat(10, 1fr);
+	grid-template-columns:repeat(10, 1fr);
+	align-items:center;
+	justify-items:center;
+}
+#grid > div {
+	z-index:10;
+	width:90%;
+	height:90%;
+}
+.snake {
+	background-color:#0c4;
+}
+.snake.head {
+	background-color:#27ae60;
+}
+.food {
+	background-color:#E43;
+	transform:rotate(45deg) scale(0.7);
+}
+
+
+
+#scoreLabel {
+	position:fixed;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	color:#788;
+	font-size:40vmin;
+	margin:0;
+}
+
+
+
+.popup {
+	display:none;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	text-align:center;
+	color:#cdd;
+	background-color:#2c3e50;
+}
+.popup > .content {
+	position:fixed;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	width: 100%;
+	max-height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--space-0);
+	scroll-padding-bottom: var(--space-0);
+	box-sizing: border-box; 
+}
+
+
+
+#startScreen {
+	display:block;
+}
+#startScreen > .content > * + *  {
+	margin-top: var(--space-2);
+}
+#startScreen #buttonContainer {
+	display: inline-flex;
+	height: var(--space-5);
+}
+#startScreen #buttonContainer > button {
+	height: 100%;
+}
+#startScreen #buttonContainer > #startButton {
+	width: var(--space-5);
+	margin-right: var(--space-0);
+	padding: 0;
+	font-size: var(--space-2);
+}
+#startButton::before {
+	line-height: var(--space-3);
+}
+#startScreen #gameOverScoreLabel {
+	display:none;
+	margin: var(--space-2) 0 0 0;
+}
+
+
+
+#settingsScreen input, #enterLeaderboardScreen input {
+	width:20vmin;
+	outline:none;
+	font-family:"PressStart2P", sans-serif;
+	font-size:4vmin;
+	background:transparent;
+	color:inherit;
+	border:0;
+}
+
+
+
+#leaderboardScreen > .content > * + * {
+	margin: var(--space-2) 0 0 0;
+}
+#leaderboardScreen table {
+	display:inline-block;
+	border-spacing: var(--space-0) 0;
+}
+#leaderboardScreen table > tr + tr > td {
+	padding-top: var(--space-0);
+}
+#leaderboardScreen table td {
+	max-width:60vw;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+
+
+#enterLeaderboardScreen > .content > * + * {
+	margin: var(--space-2) 0 0 0;
+}
+#enterLeaderboardScreen input {
+	width:50vmin;
+}
+#statusIndicator {
+	display:none;
+	color:#d66;
+}

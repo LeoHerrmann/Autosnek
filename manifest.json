@@ -1,0 +1,21 @@
+{
+    "name": "Snek (Local Version)",
+    "short_name": "Snek",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#CCDDDD",
+    "background_color": "#2c3e50",
+    "description": "Another version of the popular snake game",
+    "icons": [
+        {
+            "src": "icon_912.png",
+            "sizes": "912x912",
+            "type": "image/png"
+        },
+        {
+            "src": "icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
