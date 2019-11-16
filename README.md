@@ -10,3 +10,4 @@ This is the local version which comes without leaderboard functionality. Click [
 
 ## Installation
 Since this is just a simple web application there is no need to install this game. If you want to run this game from your local machine, download the files from this repository and open index.html. 
+
