@@ -1,3 +1,6 @@
+16.11.2019
+Added short delay between button clicks and action, so give button more time to finish their animations
+
 15.11.2019
 Changed name to Snek (local version)
 Updated description

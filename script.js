@@ -88,7 +88,10 @@ var starter = {
 		display();
 
 		$(document).on("keydown touchstart", starter.start);
-		$(".popup").fadeOut(200);
+
+		setTimeout(function() {
+			$(".popup").fadeOut(200);
+		}, 200);
 	},
 
 	createGrid: function(size) {
@@ -123,7 +126,11 @@ var starter = {
 			}
 			else {
 				$("#gameOverScoreLabel").text("Score: " + score);
-				$("#startScreen").fadeIn(200);
+
+				setTimeout(function() {
+					$("#startScreen").fadeIn(200);
+				}, 200);
+
 				$("#startScreen h1").text("Game Over");
 				$("#startScreen #gameOverScoreLabel").css("display", "block");
 				clearInterval(moveInterval);
@@ -179,7 +186,7 @@ function move(direction) {
 				grid[i].head = undefined;
 			}
 
-	
+
 			grid[i].disappearIn -= 1;
 
 			if (grid[i].disappearIn == 0) {
