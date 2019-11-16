@@ -47,6 +47,7 @@ button {
 	padding:2vmin 3vmin 2vmin 3vmin;
 	border: 1vmin solid #cdd;
 	transition: color 0.2s, background-color 0.2s;
+	touch-action: manipulation;
 }
 button:active {
 	background-color:#2c3e50;
