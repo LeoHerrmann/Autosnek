@@ -3,12 +3,7 @@
     "short_name": "Snek",
     "icons": [
         {
-            "src": "icon_912.png",
-            "type": "image/png",
-            "sizes": "912x912"
-        },
-        {
-            "src": "icon_512.png",
+            "src": "icon.png",
             "type": "image/png",
             "sizes": "512x512"
         }
