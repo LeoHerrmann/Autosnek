@@ -93,6 +93,10 @@ var starter = {
 		setTimeout(function() {
 			$(".popup").fadeOut(200);
 		}, 200);
+
+		setTimeout(function() {
+			starter.start();
+		}, 700);
 	},
 
 	createGrid: function(size) {

@@ -1,2 +1,3 @@
 26.06.2020
 Algorithm for automatically choosing best direction
+UI adjustments

@@ -30,7 +30,7 @@ h1, h2 {
 	margin: 0;
 }
 h1 {
-	font-size: var(--space-5);
+	font-size: var(--space-4);
 }
 h2 {
 	font-size: var(--space-2);
@@ -57,7 +57,7 @@ button.secondary {
 	background-color:#2c3e50;
 	color:#cdd;
 }
-button.secondary:active {
+button.secondary:active, #startScreen #buttonContainer:active {
 	background-color:#cdd;
 	color:#2c3e50;
 }
@@ -141,22 +141,22 @@ button.secondary:active {
 #startScreen > .content > * + *  {
 	margin-top: var(--space-2);
 }
+
 #startScreen #buttonContainer {
 	display: inline-flex;
 	height: var(--space-5);
+	line-height: calc(var(--space-5) - 1vmin);
+	border: 1vmin solid #cdd;
+	padding: 0 var(--space-1) 0 var(--space-0);
+	box-sizing: border-box;
+	transition: color 0.2s, background-color 0.2s;
 }
-#startScreen #buttonContainer > button {
-	height: 100%;
+#startScreen #buttonContainer > #startIcon {
+	line-height: calc(var(--space-5) - 2.5vmin);
+	font-size: var(--space-1);
+	margin-right: 0.5ch;
 }
-#startScreen #buttonContainer > #startButton {
-	width: var(--space-5);
-	margin-right: var(--space-0);
-	padding: 0;
-	font-size: var(--space-2);
-}
-#startButton::before {
-	line-height: var(--space-3);
-}
+
 #startScreen #gameOverScoreLabel {
 	display:none;
 	margin: var(--space-2) 0 0 0;
