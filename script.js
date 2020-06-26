@@ -1,11 +1,12 @@
 var grid;
 var gridSize = 10;
-var speed = 150;
+var speed = 75;
 var snakeLength;
 var movingDirection = "right";
 var moveInterval;
 var score;
-//var topten;
+
+
 
 var touchstartPosition;
 
@@ -42,18 +43,18 @@ window.onload = function() {
 				y: e.touches[0].clientY
 			}
 		}
-	
+
 		window.ontouchmove = function(e) {
 			var touchmovePosition = {
 				x: e.changedTouches[0].clientX,
 				y: e.changedTouches[0].clientY
 			};
-	
-	
+
+
 			var xDifference = touchstartPosition.x - touchmovePosition.x;
 			var yDifference = touchstartPosition.y - touchmovePosition.y;
 			var direction = "none";
-	
+
 			if (Math.abs(xDifference) > 50) {
 				if (xDifference < 0) {
 					movingDirection = "right";
@@ -84,7 +85,7 @@ var starter = {
 
 		this.createGrid(gridSize);
 		this.createSnake();
-		createFood();
+		grid = createFood();
 		display();
 
 		$(document).on("keydown touchstart", starter.start);
@@ -114,6 +115,7 @@ var starter = {
 		});
 
 	},
+
 	createSnake: function() {
 		snakeLength = 1;
 		grid[gridSize + 1] = {type: "snake", disappearIn: 1, head: true};
@@ -121,9 +123,20 @@ var starter = {
 
 	start: function() {
 		moveInterval = setInterval(function() {
-			if (move(movingDirection)) {
-				display();
+			moveReturn = move(movingDirection);
+			moveSuccess = moveReturn[1];
+			grid = moveReturn[0];
+
+			if (moveSuccess == 1) {
+				grid = growSnake();
+				grid = createFood();
 			}
+
+			if (moveSuccess >= 0) {
+				display();
+				autoDirection();
+			}
+
 			else {
 				$("#gameOverScoreLabel").text("Score: " + score);
 
@@ -145,55 +158,67 @@ var starter = {
 
 
 
-function createFood() {
+function createFood(tempGrid = JSON.parse(JSON.stringify(grid))) {
 	var foodCreated = false;
 
 	while (foodCreated == false && score+1 != gridSize*gridSize) {
-		var randomNumber = Math.floor(Math.random() * (grid.length));
+		var randomNumber = Math.floor(Math.random() * (tempGrid.length));
 
-		if (grid[randomNumber].type == "empty") {
-			grid[randomNumber].type = "food";
+		if (tempGrid[randomNumber].type == "empty") {
+			tempGrid[randomNumber].type = "food";
 			foodCreated = true;
 		}
 	}
+
+	return tempGrid;
 }
-function growSnake() {
-	for (field in grid) {
-		if (grid[field].type == "snake") {
-			grid[field].disappearIn += 1;
+
+function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
+	for (field in tempGrid) {
+		if (tempGrid[field].type == "snake") {
+			tempGrid[field].disappearIn += 1;
 		}
 	}
 
 	snakeLength++;
 	score++;
-	createFood();
+
+	return tempGrid;
 }
 
 
 
 
 
-function move(direction) {
+function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
+	tempGrid = JSON.parse(JSON.stringify(tempGrid));
+
 	var currentHeadPosition;
 	var nextFieldIndex = false;
 	var stillAlive = false;
 
+	var success = -1;
 
-	for (var i=0;i<grid.length;i++) {
-		if(grid[i].type == "snake") {
-			if (grid[i].head === true) {
+	for (var i=0;i<tempGrid.length;i++) {
+		if(tempGrid[i].type == "snake") {
+			if (tempGrid[i].head === true) {
 				currentHeadPosition = i;
-				grid[i].head = undefined;
+				tempGrid[i].head = undefined;
 			}
 
 
-			grid[i].disappearIn -= 1;
+			tempGrid[i].disappearIn -= 1;
 
-			if (grid[i].disappearIn == 0) {
-				grid[i].type = "empty";
-				grid[i].disappearIn = undefined;
+			if (tempGrid[i].disappearIn == 0) {
+				tempGrid[i].type = "empty";
+				tempGrid[i].disappearIn = undefined;
 			}
 		}
+	}
+
+
+	if (typeof(currentHeadPosition) == "undefined") {
+		return [tempGrid, -1];
 	}
 
 
@@ -220,19 +245,20 @@ function move(direction) {
 
 
 	if (nextFieldIndex !== false) {
-		if (grid[nextFieldIndex].type != "snake") {
-			if (grid[nextFieldIndex].type == "food") {
-				growSnake();
+		if (tempGrid[nextFieldIndex].type != "snake") {
+			success = 0;
+
+			if (tempGrid[nextFieldIndex].type == "food") {
+				success = 1;
 			}
 
-			grid[nextFieldIndex].type = "snake";
-			grid[nextFieldIndex].head = true;
-			grid[nextFieldIndex].disappearIn = snakeLength;
-			stillAlive = true;
+			tempGrid[nextFieldIndex].type = "snake";
+			tempGrid[nextFieldIndex].head = true;
+			tempGrid[nextFieldIndex].disappearIn = snakeLength;
 		}
 	}
 
-	return stillAlive;
+	return [tempGrid, success];
 }
 
 
@@ -255,6 +281,138 @@ function display() {
 		}
 	}
 
-
 	$("#scoreLabel").text(score);
+}
+
+
+
+//go closer to food if it is possible to continue living
+function autoDirection() {
+    var foodCoordinates = getFoodCoordinates();
+    var headCoordinates = getHeadCoordinates();
+
+    var directions = [["left", 0], ["right", 0], ["up", 0], ["down", 0]];
+
+    if (headCoordinates[0] > foodCoordinates[0]) {
+        directions[0][1] = 1;
+    }
+
+    else if (headCoordinates[0] < foodCoordinates[0]) {
+        directions[1][1] = 1;
+    }
+
+    if (headCoordinates[1] > foodCoordinates[1]) {
+        directions[2][1] = 1;
+    }
+
+    else if (headCoordinates[1] < foodCoordinates[1]) {
+        directions[3][1] = 1;
+    }
+
+    for (let i = 0; i < 4; i++) {
+        if (snakeLength > 10) {
+        	if (survivalPossible(6, move(directions[i][0])[0]) === false) {
+        		directions[i][1] = -1;
+        	}
+        }
+
+        else {
+            if (survivalPossible(3, move(directions[i][0])[0]) === false) {
+                directions[i][1] = -1;
+        	}
+        }
+    }
+
+    //select one of the directions with highest rating
+    var highestRating = directions[0][1];
+    var bestDirection = directions[0][0];
+
+    for (let direction of directions) {
+    	if (direction[1] > highestRating) {
+    		bestDirection = direction[0];
+    		highestRating = direction[1];
+    	}
+    }
+
+    movingDirection = bestDirection;
+}
+
+
+
+function getFoodCoordinates(tempGrid = JSON.parse(JSON.stringify(grid))) {
+	let foodCoordinates = [];
+
+	for (let i = 0; i < tempGrid.length; i++) {
+		if (tempGrid[i].type == "food") {
+			foodCoordinates = [i % gridSize, Math.floor(i / 10)];
+		}
+	}
+
+	if (foodCoordinates.length == 0) {
+		foodCoordinates = getHeadCoordinates();
+	}
+
+	return foodCoordinates;
+}
+
+
+
+function getHeadCoordinates(tempGrid = JSON.parse(JSON.stringify(grid))) {
+	let headCoordinates = [];
+
+	for (let i = 0; i < tempGrid.length; i++) {
+		if (tempGrid[i].type == "snake" && tempGrid[i].head === true) {
+			headCoordinates = [i % gridSize, Math.floor(i / 10)];
+		}
+	}
+
+	return headCoordinates;
+}
+
+
+
+function survivalPossible(depth, tempGrid) {
+	if (depth == 0) {
+		if (
+			move("up", tempGrid)[1] >= 0 || 
+			move("right", tempGrid)[1] >= 0 ||
+			move("down", tempGrid)[1] >= 0 ||
+			move("left", tempGrid)[1] >= 0
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	let survivalPossibilities = [];
+
+	let move_up = move("up", tempGrid);
+	let move_right = move("right", tempGrid);
+	let move_down = move("down", tempGrid);
+	let move_left = move("left", tempGrid);
+
+	if (move_up[1] != -1) {
+		survivalPossibilities.push(survivalPossible(depth - 1, move_up[0]));
+	}
+
+	if (move_right[1] != -1) {
+		survivalPossibilities.push(survivalPossible(depth - 1, move_right[0]));
+	}
+
+	if (move_down[1] != -1) {
+		survivalPossibilities.push(survivalPossible(depth - 1, move_down[0]));
+	}
+
+	if (move_left[1] != -1) {
+		survivalPossibilities.push(survivalPossible(depth - 1, move_left[0]));
+	}
+
+	for (let possibility of survivalPossibilities) {
+		if (possibility == true) {
+			return true;
+		}
+	}
+
+	return false;
 }
