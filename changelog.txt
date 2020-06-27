@@ -1,6 +1,7 @@
 27.06.2020
 Removed keyboard controls
 README update
+Removed enterLeaderBoardScreen
 
 26.06.2020
 Algorithm for automatically choosing best direction
