@@ -1,81 +1,11 @@
-var grid;
-var gridSize = 10;
+var gridSize = 12;
 var speed = 75;
+
+var grid;
 var snakeLength;
-var movingDirection = "right";
+var movingDirection;
 var moveInterval;
 var score;
-
-
-
-var touchstartPosition;
-
-
-window.onload = function() {
-	addDirectionChangeEvents();
-
-	$("#settingsScreen input, #enterLeaderboardScreen input").on("click", function(e) {
-		e.target.focus();
-	});
-
-
-	function addDirectionChangeEvents() {
-		$(document).on("keydown", function(e) {
-			if (e.which == 37) {
-				movingDirection = "left";
-			}
-			else if (e.which == 38) {
-				movingDirection = "up";
-			}
-			else if (e.which == 39) {
-				movingDirection = "right";
-			}
-			else if (e.which == 40) {
-				movingDirection = "down";
-			}
-		});
-
-
-
-		window.ontouchstart = function(e) {
-			touchstartPosition = {
-				x: e.touches[0].clientX,
-				y: e.touches[0].clientY
-			}
-		}
-
-		window.ontouchmove = function(e) {
-			var touchmovePosition = {
-				x: e.changedTouches[0].clientX,
-				y: e.changedTouches[0].clientY
-			};
-
-
-			var xDifference = touchstartPosition.x - touchmovePosition.x;
-			var yDifference = touchstartPosition.y - touchmovePosition.y;
-			var direction = "none";
-
-			if (Math.abs(xDifference) > 50) {
-				if (xDifference < 0) {
-					movingDirection = "right";
-				}
-				else {
-					movingDirection = "left";
-				}
-			}
-			else if (Math.abs(yDifference) > 50) {
-				if (yDifference < 0) {
-				movingDirection = "down";
-				}
-				else {
-					movingDirection = "up";
-				}
-			}
-		}
-	}
-}
-
-
 
 
 
@@ -87,8 +17,6 @@ var starter = {
 		this.createSnake();
 		grid = createFood();
 		display();
-
-		$(document).on("keydown touchstart", starter.start);
 
 		setTimeout(function() {
 			$(".popup").fadeOut(200);
@@ -126,6 +54,8 @@ var starter = {
 	},
 
 	start: function() {
+		movingDirection = "right";
+
 		moveInterval = setInterval(function() {
 			moveReturn = move(movingDirection);
 			moveSuccess = moveReturn[1];
@@ -153,12 +83,8 @@ var starter = {
 				clearInterval(moveInterval);
 			}
 		}, speed);
-
-		$(document).unbind("keydown", starter.start);
-		$(document).unbind("touchstart", starter.start);
 	}
 };
-
 
 
 
@@ -177,6 +103,8 @@ function createFood(tempGrid = JSON.parse(JSON.stringify(grid))) {
 	return tempGrid;
 }
 
+
+
 function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
 	for (field in tempGrid) {
 		if (tempGrid[field].type == "snake") {
@@ -189,8 +117,6 @@ function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 	return tempGrid;
 }
-
-
 
 
 
@@ -209,7 +135,6 @@ function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
 				currentHeadPosition = i;
 				tempGrid[i].head = undefined;
 			}
-
 
 			tempGrid[i].disappearIn -= 1;
 
@@ -267,8 +192,6 @@ function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 
 
-
-
 function display() {
 	$("#grid > div").removeClass();
 
@@ -314,16 +237,8 @@ function autoDirection() {
     }
 
     for (let i = 0; i < 4; i++) {
-        if (snakeLength > 10) {
-        	if (survivalPossible(6, move(directions[i][0])[0]) === false) {
-        		directions[i][1] = -1;
-        	}
-        }
-
-        else {
-            if (survivalPossible(3, move(directions[i][0])[0]) === false) {
-                directions[i][1] = -1;
-        	}
+        if (survivalPossible(5, move(directions[i][0])[0]) === false) {
+            directions[i][1] = -1;
         }
     }
 
