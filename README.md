@@ -11,4 +11,4 @@ Each step, the movements bringing the snake closer to the food source are determ
 
 
 ## Getting started
-Since this is a web application, there is no need to install it. You can click [here](https://rahmsauce.github.io/Autosnek/) to try it out or if you want to run it on your local machine, download the repository and open index.html using a web browser. If you think you can beat the algorithm, you might want to have a look at the [original project](https://github.com/Rahmsauce/Snek).
+Since this is a web application, there is no need to install it. You can click [here](https://rahmsauce.github.io/Autosnek/index.html) to try it out or if you want to run it on your local machine, download the repository and open index.html using a web browser. If you think you can beat the algorithm, you might want to have a look at the [original project](https://github.com/Rahmsauce/Snek).
