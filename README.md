@@ -1,5 +1,5 @@
 # Autosnek
-A snake using an algorithm to determine the best possible movement considering growth and survival possibilities.
+A snake using an algorithm to determine the best possible movement considering growth and survival possibilities
 
 
 ## Screenshots
