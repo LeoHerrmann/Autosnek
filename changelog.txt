@@ -2,6 +2,7 @@
 Performance improvements allowing the snake to look further into the future during the same period of time
 Independency from jQuery
 Removed user-scalable="no"
+Best movements are chosen randomly to prevent loops
 
 27.06.2020
 Removed keyboard controls

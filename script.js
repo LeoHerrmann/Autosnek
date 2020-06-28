@@ -1,4 +1,4 @@
-var gridSize = 12;
+var gridSize = 5;
 var speed = 75;
 
 var grid;
@@ -260,7 +260,23 @@ function autoDirection() {
     }
 
     //select one of the directions with highest rating
-    var highestRating = directions[0][1];
+
+	var highestRating = directions[0][1];
+    var bestDirections = [directions[0][0]];
+
+    for (let direction of directions) {
+    	if (direction[1] > highestRating) {
+    		bestDirections = [direction[0]];
+    		highestRating = direction[1];
+    	}
+    	else if (direction[1] == highestRating) {
+    		bestDirections.push(direction[0])
+    	}
+    }
+
+    movingDirection = bestDirections[Math.floor(Math.random() * bestDirections.length)];
+
+    /*var highestRating = directions[0][1];
     var bestDirection = directions[0][0];
 
     for (let direction of directions) {
@@ -270,7 +286,7 @@ function autoDirection() {
     	}
     }
 
-    movingDirection = bestDirection;
+    movingDirection = bestDirection;*/
 }
 
 
