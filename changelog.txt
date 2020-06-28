@@ -1,6 +1,7 @@
 28.06.2020
 Performance improvements allowing the snake to look further into the future during the same period of time
 Independency from jQuery
+Removed user-scalable="no"
 
 27.06.2020
 Removed keyboard controls
