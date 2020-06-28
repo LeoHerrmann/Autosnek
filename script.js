@@ -1,4 +1,4 @@
-var gridSize = 12;
+var gridSize = 8;
 var speed = 75;
 
 var grid;
@@ -13,13 +13,18 @@ var starter = {
 	prepare: function() {
 		score = 0;
 
-		this.createGrid(gridSize);
-		this.createSnake();
+		starter.createGrid(gridSize);
+		starter.createSnake();
 		grid = createFood();
 		display();
 
+
 		setTimeout(function() {
-			$(".popup").fadeOut(200);
+			document.getElementById("startScreen").style.opacity = 0;
+
+			setTimeout(function() {
+				document.getElementById("startScreen").style.display = "none";
+			}, 200);
 		}, 200);
 
 		setTimeout(function() {
@@ -29,22 +34,25 @@ var starter = {
 
 	createGrid: function(size) {
 		grid = [];
-		$("#grid > div").remove();
+
+		var gridElement = document.getElementById("grid");
+
+		var gridTiles = gridElement.getElementsByTagName("div");
+
+		while (gridTiles.length > 0) {
+			gridTiles[0].remove();
+		}
 
 		for (var i = 0; i < size ** 2; i++) {
 			grid.push({type:"empty"});
 		}
 
 		for (let field in grid) {
-			var newField = $("<div></div>");
-
-			$("#grid").append(newField);
+			gridElement.append(document.createElement("div"))
 		}
 
-		$("#grid").css({
-			"grid-template-rows": "repeat(" + gridSize + ", 1fr)",
-			"grid-template-columns": "repeat(" + gridSize + ", 1fr)"
-		});
+		gridElement.style.gridTemplateRows = "repeat(" + gridSize + ", 1fr)";
+		gridElement.style.gridTemplateColumns = "repeat(" + gridSize + ", 1fr)";
 
 	},
 
@@ -54,7 +62,7 @@ var starter = {
 	},
 
 	start: function() {
-		movingDirection = "right";
+		autoDirection();
 
 		moveInterval = setInterval(function() {
 			moveReturn = move(movingDirection);
@@ -72,15 +80,19 @@ var starter = {
 			}
 
 			else {
-				$("#gameOverScoreLabel").text("Score: " + score);
+				clearInterval(moveInterval);
+
+				var gameOverScoreLabel = document.getElementById("gameOverScoreLabel");
+				gameOverScoreLabel.innerText = "Score: " + score;
+				gameOverScoreLabel.style.display = "block";
+
+				document.querySelector("#startScreen h1").innerText = "Game Over";
+
+				document.getElementById("startScreen").style.display = "block";
 
 				setTimeout(function() {
-					$("#startScreen").fadeIn(200);
-				}, 200);
-
-				$("#startScreen h1").text("Game Over");
-				$("#startScreen #gameOverScoreLabel").css("display", "block");
-				clearInterval(moveInterval);
+					document.getElementById("startScreen").style.opacity = "1";
+				}, 500);
 			}
 		}, speed);
 	}
@@ -193,23 +205,27 @@ function move(direction, tempGrid = grid) {
 
 
 function display() {
-	$("#grid > div").removeClass();
+	var gridTiles = document.querySelectorAll("#grid > div");
 
-	for (var i = 0; i < grid.length; i++) {
+	for (let i = 0; i < gridTiles.length; i++) {
+		gridTiles[i].classList.remove("food");
+		gridTiles[i].classList.remove("snake");
+		gridTiles[i].classList.remove("head");
+
 		if (grid[i].type == "snake") {
-			$("#grid > div").eq(i).addClass("snake");
+			gridTiles[i].classList.add("snake");
 
-			if (grid[i].head == true) {
-				$("#grid > div").eq(i).addClass("head");
+			if (grid[i].head === true) { //richtig?
+				gridTiles[i].classList.add("head");
 			}
 		}
 
-		if (grid[i].type == "food") {
-			$("#grid > div").eq(i).addClass("food");
+		else if (grid[i].type == "food") {
+			gridTiles[i].classList.add("food");
 		}
 	}
 
-	$("#scoreLabel").text(score);
+	document.getElementById("scoreLabel").innerText = score;
 }
 
 
