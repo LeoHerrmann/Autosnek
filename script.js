@@ -242,7 +242,6 @@ function autoDirection() {
     if (headCoordinates[0] > foodCoordinates[0]) {
         directions[0][1] = 1;
     }
-
     else if (headCoordinates[0] < foodCoordinates[0]) {
         directions[1][1] = 1;
     }
@@ -250,7 +249,6 @@ function autoDirection() {
     if (headCoordinates[1] > foodCoordinates[1]) {
         directions[2][1] = 1;
     }
-
     else if (headCoordinates[1] < foodCoordinates[1]) {
         directions[3][1] = 1;
     }
@@ -289,7 +287,23 @@ function autoDirection() {
     	}
     }
 
-    //select one of the directions with highest rating
+	//if death inevitable, rate movements bringing the snake closer to the food source higher
+	if (directions[0][1] == -1 && directions[1][1] == -1 && directions[2][1] == -1 && directions[3][1] == -1) {
+	    if (headCoordinates[0] > foodCoordinates[0]) {
+    	    directions[0][1] = 1;
+    	}
+    	if (headCoordinates[0] < foodCoordinates[0]) {
+    	    directions[1][1] = 1;
+    	}
+    	if (headCoordinates[1] > foodCoordinates[1]) {
+    	    directions[2][1] = 1;
+    	}
+    	if (headCoordinates[1] < foodCoordinates[1]) {
+    	    directions[3][1] = 1;
+    	}
+	}
+
+    //choose randomly between the best movements
 	var highestRating = directions[0][1];
     var bestDirections = [directions[0][0]];
 
