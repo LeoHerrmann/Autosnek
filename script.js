@@ -237,6 +237,7 @@ function autoDirection() {
 
     var directions = [["left", 0], ["right", 0], ["up", 0], ["down", 0]];
 
+    //rate movements positively if they bring the snake closer to the food source
     if (headCoordinates[0] > foodCoordinates[0]) {
         directions[0][1] = 1;
     }
@@ -253,14 +254,32 @@ function autoDirection() {
         directions[3][1] = 1;
     }
 
-    for (let i = 0; i < 4; i++) {
-        if (survivalPossible(6, move(directions[i][0])[0]) === false) {
-            directions[i][1] = -1;
-        }
+	//rate movements negatively if they oppose the current direction
+	switch (movingDirection) {
+		case "left":
+			directions[1][1] = -1;
+			break;
+		case "right":
+			directions[0][1] = -1;
+			break;
+		case "up":
+			directions[3][1] = -1;
+			break;
+		case "down":
+			directions[2][1] = -1;
+			break;
+	}
+
+    //rate movements negatively if they inevitably lead to the snake dying
+    for (let i = 0; i < directions.length; i++) {
+    	if (directions[i][1] >= 0) {
+		    if (survivalPossible(6, move(directions[i][0])[0]) === false) {
+		        directions[i][1] = -1;
+		    }
+    	}
     }
 
     //select one of the directions with highest rating
-
 	var highestRating = directions[0][1];
     var bestDirections = [directions[0][0]];
 
@@ -275,18 +294,6 @@ function autoDirection() {
     }
 
     movingDirection = bestDirections[Math.floor(Math.random() * bestDirections.length)];
-
-    /*var highestRating = directions[0][1];
-    var bestDirection = directions[0][0];
-
-    for (let direction of directions) {
-    	if (direction[1] > highestRating) {
-    		bestDirection = direction[0];
-    		highestRating = direction[1];
-    	}
-    }
-
-    movingDirection = bestDirection;*/
 }
 
 
