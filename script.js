@@ -31,11 +31,11 @@ var starter = {
 		grid = [];
 		$("#grid > div").remove();
 
-		for (var i=0;i<size*size;i++) {
+		for (var i = 0; i < size ** 2; i++) {
 			grid.push({type:"empty"});
 		}
 
-		for (field in grid) {
+		for (let field in grid) {
 			var newField = $("<div></div>");
 
 			$("#grid").append(newField);
@@ -91,7 +91,7 @@ var starter = {
 function createFood(tempGrid = JSON.parse(JSON.stringify(grid))) {
 	var foodCreated = false;
 
-	while (foodCreated == false && score+1 != gridSize*gridSize) {
+	while (foodCreated == false && score + 1 != gridSize ** 2) {
 		var randomNumber = Math.floor(Math.random() * (tempGrid.length));
 
 		if (tempGrid[randomNumber].type == "empty") {
@@ -106,7 +106,7 @@ function createFood(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 
 function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
-	for (field in tempGrid) {
+	for (let field in tempGrid) {
 		if (tempGrid[field].type == "snake") {
 			tempGrid[field].disappearIn += 1;
 		}
@@ -120,16 +120,16 @@ function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 
 
-function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
+
+
+function move(direction, tempGrid = grid) {
 	tempGrid = JSON.parse(JSON.stringify(tempGrid));
 
 	var currentHeadPosition;
-	var nextFieldIndex = false;
-	var stillAlive = false;
-
+	var nextHeadPosition = false;
 	var success = -1;
 
-	for (var i=0;i<tempGrid.length;i++) {
+	for (var i = 0; i < tempGrid.length; i++) {
 		if(tempGrid[i].type == "snake") {
 			if (tempGrid[i].head === true) {
 				currentHeadPosition = i;
@@ -153,37 +153,37 @@ function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 	if (direction == "up") {
 		if (currentHeadPosition >= gridSize) {
-			nextFieldIndex = currentHeadPosition - gridSize;
+			nextHeadPosition = currentHeadPosition - gridSize;
 		}
 	}
 	else if (direction == "right") {
 		if (currentHeadPosition % gridSize != gridSize -1) {
-			nextFieldIndex = currentHeadPosition + 1;
+			nextHeadPosition = currentHeadPosition + 1;
 		}
 	}
 	else if (direction == "down") {
 		if (currentHeadPosition < gridSize * gridSize - gridSize) {
-			nextFieldIndex = currentHeadPosition + gridSize;
+			nextHeadPosition = currentHeadPosition + gridSize;
 		}
 	}
 	else if (direction == "left") {
 		if (currentHeadPosition % gridSize != 0) {
-			nextFieldIndex = currentHeadPosition - 1;
+			nextHeadPosition = currentHeadPosition - 1;
 		}
 	}
 
 
-	if (nextFieldIndex !== false) {
-		if (tempGrid[nextFieldIndex].type != "snake") {
+	if (nextHeadPosition !== false) {
+		if (tempGrid[nextHeadPosition].type != "snake") {
 			success = 0;
 
-			if (tempGrid[nextFieldIndex].type == "food") {
+			if (tempGrid[nextHeadPosition].type == "food") {
 				success = 1;
 			}
 
-			tempGrid[nextFieldIndex].type = "snake";
-			tempGrid[nextFieldIndex].head = true;
-			tempGrid[nextFieldIndex].disappearIn = snakeLength;
+			tempGrid[nextHeadPosition].type = "snake";
+			tempGrid[nextHeadPosition].head = true;
+			tempGrid[nextHeadPosition].disappearIn = snakeLength;
 		}
 	}
 
@@ -195,7 +195,7 @@ function move(direction, tempGrid = JSON.parse(JSON.stringify(grid))) {
 function display() {
 	$("#grid > div").removeClass();
 
-	for (var i=0;i<grid.length;i++) {
+	for (var i = 0; i < grid.length; i++) {
 		if (grid[i].type == "snake") {
 			$("#grid > div").eq(i).addClass("snake");
 
@@ -203,6 +203,7 @@ function display() {
 				$("#grid > div").eq(i).addClass("head");
 			}
 		}
+
 		if (grid[i].type == "food") {
 			$("#grid > div").eq(i).addClass("food");
 		}
@@ -237,7 +238,7 @@ function autoDirection() {
     }
 
     for (let i = 0; i < 4; i++) {
-        if (survivalPossible(5, move(directions[i][0])[0]) === false) {
+        if (survivalPossible(6, move(directions[i][0])[0]) === false) {
             directions[i][1] = -1;
         }
     }
@@ -263,7 +264,8 @@ function getFoodCoordinates(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 	for (let i = 0; i < tempGrid.length; i++) {
 		if (tempGrid[i].type == "food") {
-			foodCoordinates = [i % gridSize, Math.floor(i / 10)];
+			foodCoordinates = [i % gridSize, Math.floor(i / gridSize)];
+			break;
 		}
 	}
 
@@ -281,7 +283,8 @@ function getHeadCoordinates(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 	for (let i = 0; i < tempGrid.length; i++) {
 		if (tempGrid[i].type == "snake" && tempGrid[i].head === true) {
-			headCoordinates = [i % gridSize, Math.floor(i / 10)];
+			headCoordinates = [i % gridSize, Math.floor(i / gridSize)];
+			break;
 		}
 	}
 
@@ -292,11 +295,13 @@ function getHeadCoordinates(tempGrid = JSON.parse(JSON.stringify(grid))) {
 
 function survivalPossible(depth, tempGrid) {
 	if (depth == 0) {
+		var headCoordinates = getHeadCoordinates(tempGrid);
+
 		if (
-			move("up", tempGrid)[1] >= 0 || 
-			move("right", tempGrid)[1] >= 0 ||
-			move("down", tempGrid)[1] >= 0 ||
-			move("left", tempGrid)[1] >= 0
+			(headCoordinates[1] > 0 && tempGrid[headCoordinates[1] * gridSize + headCoordinates[0] - gridSize].type != "snake") ||				//up
+			(headCoordinates[0] < gridSize - 1 && tempGrid[headCoordinates[1] * gridSize + headCoordinates[0] + 1].type != "snake") ||			//right
+			(headCoordinates[1] < gridSize - 1 && tempGrid[headCoordinates[1] * gridSize + headCoordinates[0] + gridSize].type != "snake") || 	//down
+			(headCoordinates[0] > 0 && tempGrid[headCoordinates[1] * gridSize + headCoordinates[0] - 1].type != "snake")						//left
 		) {
 			return true;
 		}
@@ -328,7 +333,7 @@ function survivalPossible(depth, tempGrid) {
 	}
 
 	for (let possibility of survivalPossibilities) {
-		if (possibility == true) {
+		if (possibility === true) {
 			return true;
 		}
 	}
