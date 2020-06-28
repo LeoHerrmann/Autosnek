@@ -1,5 +1,6 @@
 var gridSize = 12;
 var speed = 75;
+var maxSurvivalCheckDepth = 6;
 
 var grid;
 var snakeLength;
@@ -271,11 +272,20 @@ function autoDirection() {
 	}
 
     //rate movements negatively if they inevitably lead to the snake dying
+	var survivalCheckDepth;
+
+	if (snakeLength < maxSurvivalCheckDepth) {
+		survivalCheckDepth = snakeLength;
+	}
+	else {
+		survivalCheckDepth = maxSurvivalCheckDepth;
+	}
+
     for (let i = 0; i < directions.length; i++) {
     	if (directions[i][1] >= 0) {
-		    if (survivalPossible(6, move(directions[i][0])[0]) === false) {
-		        directions[i][1] = -1;
-		    }
+			if (survivalPossible(survivalCheckDepth, move(directions[i][0])[0]) === false) {
+			    directions[i][1] = -1;
+			}
     	}
     }
 
