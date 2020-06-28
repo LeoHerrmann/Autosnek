@@ -1,4 +1,4 @@
-var gridSize = 5;
+var gridSize = 12;
 var speed = 75;
 
 var grid;
