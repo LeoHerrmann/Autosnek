@@ -1,6 +1,6 @@
 var gridSize = 12;
 var speed = 75;
-var maxSurvivalCheckDepth = 6;
+var maxSurvivalCheckDepth = 25;
 
 var grid;
 var snakeLength;
@@ -380,23 +380,25 @@ function survivalPossible(depth, tempGrid) {
 	let move_left = move("left", tempGrid);
 
 	if (move_up[1] != -1) {
-		survivalPossibilities.push(survivalPossible(depth - 1, move_up[0]));
+		if (survivalPossible(depth - 1, move_up[0]) === true) {
+			return true;
+		}
 	}
 
 	if (move_right[1] != -1) {
-		survivalPossibilities.push(survivalPossible(depth - 1, move_right[0]));
+		if(survivalPossible(depth - 1, move_right[0]) === true) {
+			return true;
+		}
 	}
 
 	if (move_down[1] != -1) {
-		survivalPossibilities.push(survivalPossible(depth - 1, move_down[0]));
+		if(survivalPossible(depth - 1, move_down[0]) === true) {
+			return true;
+		}
 	}
 
 	if (move_left[1] != -1) {
-		survivalPossibilities.push(survivalPossible(depth - 1, move_left[0]));
-	}
-
-	for (let possibility of survivalPossibilities) {
-		if (possibility === true) {
+		if(survivalPossible(depth - 1, move_left[0]) === true) {
 			return true;
 		}
 	}
