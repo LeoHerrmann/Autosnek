@@ -1,6 +1,6 @@
 {
-    "name": "Snek (Local Version)",
-    "short_name": "Snek",
+    "name": "Autosnek",
+    "short_name": "Autosnek",
     "icons": [
         {
             "src": "icon.png",
@@ -12,5 +12,5 @@
     "display": "standalone",
     "theme_color": "#CCDDDD",
     "background_color": "#2c3e50",
-    "description": "Another variant of the popular snake game"
+    "description": "A snake trying to determine the best possible movement considering growth and survival possibilities"
 }
