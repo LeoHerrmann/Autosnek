@@ -1,5 +1,6 @@
-03.06.2020
+03.07.2020
 Functions for measuring average and maximum processing times
+Code cleanup
 
 02.06.2020
 If survivabliilty is proven for one direction, the other directions are no longer checked -> dramatic increase of recursion depth possible without sacrificing performance

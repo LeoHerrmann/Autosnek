@@ -26,12 +26,15 @@ html {
 }
 
 
+
 h1, h2 {
 	margin: 0;
 }
+
 h1 {
 	font-size: var(--space-4);
 }
+
 h2 {
 	font-size: var(--space-2);
 }
@@ -49,14 +52,17 @@ button {
 	transition: color 0.2s, background-color 0.2s;
 	touch-action: manipulation;
 }
+
 button:active {
 	background-color:#2c3e50;
 	color:#cdd;
 }
+
 button.secondary {
 	background-color:#2c3e50;
 	color:#cdd;
 }
+
 button.secondary:active, #startScreen #buttonContainer:active {
 	background-color:#cdd;
 	color:#2c3e50;
@@ -78,17 +84,21 @@ button.secondary:active, #startScreen #buttonContainer:active {
 	align-items:center;
 	justify-items:center;
 }
+
 #grid > div {
 	z-index:10;
 	width:90%;
 	height:90%;
 }
+
 .snake {
 	background-color:#0c4;
 }
+
 .snake.head {
 	background-color:#27ae60;
 }
+
 .food {
 	background-color:#E43;
 	transform:rotate(45deg) scale(0.7);
@@ -121,6 +131,7 @@ button.secondary:active, #startScreen #buttonContainer:active {
 	opacity: 1;
 	transition: opacity 0.2s;
 }
+
 .popup > .content {
 	position:fixed;
 	top:50%;
@@ -140,6 +151,7 @@ button.secondary:active, #startScreen #buttonContainer:active {
 #startScreen {
 	display:block;
 }
+
 #startScreen > .content > * + *  {
 	margin-top: var(--space-2);
 }
@@ -181,13 +193,16 @@ button.secondary:active, #startScreen #buttonContainer:active {
 #leaderboardScreen > .content > * + * {
 	margin: var(--space-2) 0 0 0;
 }
+
 #leaderboardScreen table {
 	display:inline-block;
 	border-spacing: var(--space-0) 0;
 }
+
 #leaderboardScreen table > tr + tr > td {
 	padding-top: var(--space-0);
 }
+
 #leaderboardScreen table td {
 	max-width:60vw;
 	overflow:hidden;
@@ -199,9 +214,11 @@ button.secondary:active, #startScreen #buttonContainer:active {
 #enterLeaderboardScreen > .content > * + * {
 	margin: var(--space-2) 0 0 0;
 }
+
 #enterLeaderboardScreen input {
 	width:50vmin;
 }
+
 #statusIndicator {
 	display:none;
 	color:#d66;

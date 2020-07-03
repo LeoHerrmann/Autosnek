@@ -32,21 +32,19 @@ var processing_times = {
 
 		return maximum;
 	}
-}
+};
 
 
 
 var starter = {
 	prepare: function() {
 		score = 0;
-
 		processing_times.list = [];
 
 		starter.createGrid(gridSize);
 		starter.createSnake();
 		grid = createFood();
 		display();
-
 
 		setTimeout(function() {
 			document.getElementById("startScreen").style.opacity = 0;
@@ -65,7 +63,6 @@ var starter = {
 		grid = [];
 
 		var gridElement = document.getElementById("grid");
-
 		var gridTiles = gridElement.getElementsByTagName("div");
 
 		while (gridTiles.length > 0) {
@@ -82,7 +79,6 @@ var starter = {
 
 		gridElement.style.gridTemplateRows = "repeat(" + gridSize + ", 1fr)";
 		gridElement.style.gridTemplateColumns = "repeat(" + gridSize + ", 1fr)";
-
 	},
 
 	createSnake: function() {
@@ -94,8 +90,8 @@ var starter = {
 		autoDirection();
 
 		moveInterval = setInterval(function() {
-			var start_time = new Date().getTime();
-			var end_time;
+			var startTime = new Date().getTime();
+			var endTime;
 
 			var moveReturn = move(movingDirection);
 			var moveSuccess = moveReturn[1];
@@ -127,8 +123,8 @@ var starter = {
 				}, 500);
 			}
 
-			var end_time = new Date().getTime();
-			processing_times.list.push(end_time - start_time);
+			endTime = new Date().getTime();
+			processing_times.list.push(endTime - startTime);
 		}, speed);
 	}
 };
@@ -192,31 +188,34 @@ function move(direction, tempGrid = grid) {
 		}
 	}
 
-
 	if (typeof(currentHeadPosition) == "undefined") {
 		return [tempGrid, -1];
 	}
 
+	switch (direction) {
+		case "up":
+			if (currentHeadPosition >= gridSize) {
+				nextHeadPosition = currentHeadPosition - gridSize;
+			}
+			break;
 
-	if (direction == "up") {
-		if (currentHeadPosition >= gridSize) {
-			nextHeadPosition = currentHeadPosition - gridSize;
-		}
-	}
-	else if (direction == "right") {
-		if (currentHeadPosition % gridSize != gridSize -1) {
-			nextHeadPosition = currentHeadPosition + 1;
-		}
-	}
-	else if (direction == "down") {
-		if (currentHeadPosition < gridSize * gridSize - gridSize) {
-			nextHeadPosition = currentHeadPosition + gridSize;
-		}
-	}
-	else if (direction == "left") {
-		if (currentHeadPosition % gridSize != 0) {
-			nextHeadPosition = currentHeadPosition - 1;
-		}
+		case "right":
+			if (currentHeadPosition % gridSize != gridSize -1) {
+				nextHeadPosition = currentHeadPosition + 1;
+			}
+			break;
+
+		case "down":
+			if (currentHeadPosition < gridSize * gridSize - gridSize) {
+				nextHeadPosition = currentHeadPosition + gridSize;
+			}
+			break;
+
+		case "left":
+			if (currentHeadPosition % gridSize != 0) {
+				nextHeadPosition = currentHeadPosition - 1;
+			}
+			break;
 	}
 
 
@@ -250,7 +249,7 @@ function display() {
 		if (grid[i].type == "snake") {
 			gridTiles[i].classList.add("snake");
 
-			if (grid[i].head === true) { //richtig?
+			if (grid[i].head === true) {
 				gridTiles[i].classList.add("head");
 			}
 		}
@@ -326,13 +325,16 @@ function autoDirection() {
 	    if (headCoordinates[0] > foodCoordinates[0]) {
     	    directions[0][1] = 1;
     	}
-    	if (headCoordinates[0] < foodCoordinates[0]) {
+
+    	else if (headCoordinates[0] < foodCoordinates[0]) {
     	    directions[1][1] = 1;
     	}
+
     	if (headCoordinates[1] > foodCoordinates[1]) {
     	    directions[2][1] = 1;
     	}
-    	if (headCoordinates[1] < foodCoordinates[1]) {
+
+    	else if (headCoordinates[1] < foodCoordinates[1]) {
     	    directions[3][1] = 1;
     	}
 	}
