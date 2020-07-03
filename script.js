@@ -8,11 +8,39 @@ var movingDirection;
 var moveInterval;
 var score;
 
+var processing_times = {
+	list: [],
+
+	getAverage: function() {
+		var sum = 0;
+
+		for (element of processing_times.list) {
+		  sum += element;
+		}
+
+		return sum / processing_times.list.length;
+	},
+
+	getMaximum: function() {
+		var maximum = 0;
+
+		for (element of processing_times.list) {
+			if (element > maximum) {
+				maximum = element;
+			}
+		}
+
+		return maximum;
+	}
+}
+
 
 
 var starter = {
 	prepare: function() {
 		score = 0;
+
+		processing_times.list = [];
 
 		starter.createGrid(gridSize);
 		starter.createSnake();
@@ -66,8 +94,11 @@ var starter = {
 		autoDirection();
 
 		moveInterval = setInterval(function() {
-			moveReturn = move(movingDirection);
-			moveSuccess = moveReturn[1];
+			var start_time = new Date().getTime();
+			var end_time;
+
+			var moveReturn = move(movingDirection);
+			var moveSuccess = moveReturn[1];
 			grid = moveReturn[0];
 
 			if (moveSuccess == 1) {
@@ -95,6 +126,9 @@ var starter = {
 					document.getElementById("startScreen").style.opacity = "1";
 				}, 500);
 			}
+
+			var end_time = new Date().getTime();
+			processing_times.list.push(end_time - start_time);
 		}, speed);
 	}
 };
