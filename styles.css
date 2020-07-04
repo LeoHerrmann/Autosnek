@@ -25,7 +25,17 @@ html {
 	font-size:4vmin;
 }
 
+body {
+    opacity: 1;
+    transition: opacity 0.2s;
+    animation: fadeIn 0.2s 0.2s backwards;
+}
 
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+}
 
 h1, h2 {
 	margin: 0;
@@ -36,7 +46,7 @@ h1 {
 }
 
 h2 {
-	font-size: var(--space-2);
+	font-size: var(--space-1);
 }
 
 
@@ -63,7 +73,7 @@ button.secondary {
 	color:#cdd;
 }
 
-button.secondary:active, #startScreen #buttonContainer:active {
+button.secondary:active {
 	background-color:#cdd;
 	color:#2c3e50;
 }
@@ -156,24 +166,30 @@ button.secondary:active, #startScreen #buttonContainer:active {
 	margin-top: var(--space-2);
 }
 
-#startScreen #buttonContainer {
-	display: inline-flex;
-	height: var(--space-5);
-	line-height: calc(var(--space-5) - 1vmin);
-	border: 1vmin solid #cdd;
-	padding: 0 var(--space-1) 0 var(--space-0);
-	box-sizing: border-box;
-	transition: color 0.2s, background-color 0.2s;
-}
-#startScreen #buttonContainer > #startIcon {
-	line-height: calc(var(--space-5) - 2.5vmin);
-	font-size: var(--space-1);
-	margin-right: 0.5ch;
+.icon-play, .icon-home {
+	font-size: var(--space-0);
 }
 
 #startScreen #gameOverScoreLabel {
 	display:none;
 	margin: var(--space-2) 0 0 0;
+}
+
+#startScreen #buttonContainer {
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr;
+	grid-gap: var(--space-0);
+}
+
+#startScreen #buttonContainer button {
+    height: var(--space-5);
+    padding: 2vmin 6vmin;
+}
+
+#startScreen #buttonContainer .iconText {
+	vertical-align: middle;
+	margin-left: 0.3ch;
 }
 
 

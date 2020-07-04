@@ -1,4 +1,5 @@
 
+.icon-home:before { content: '\e800'; } /* '' */
 .icon-play:before { content: '\e802'; } /* '' */
 .icon-chart-bar:before { content: '\e803'; } /* '' */
 .icon-cog:before { content: '\e804'; } /* '' */

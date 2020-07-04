@@ -1,9 +1,16 @@
+04.07.2020
+Singlethreaded and multithreaded variant were merged into a single application
+
 03.07.2020
+Parallel mode: If a movement in a certain direction immediately leads to death, no new worker is created
 Functions for measuring average and maximum processing times
 Code cleanup
 README upadte
 
 02.06.2020
+Parallel mode: Full multithreading functionality, however too many web workers exist resulting in performance being worse than the singlethreaded version
+Parallel mode: Number of workers limited
+
 If survivabliilty is proven for one direction, the other directions are no longer checked -> dramatic increase of recursion depth possible without sacrificing performance
 
 28.06.2020

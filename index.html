@@ -11,23 +11,17 @@
 		<link rel="stylesheet" type="text/css" href="styles.css"/>
 		<link rel="manifest" href="manifest.json"/>
 		<link rel="stylesheet" type="text/css" href="fontello/css/fontello.css"/>
-		<script src="script.js"></script>
+		<script src="fadeLink.js"></script>
 	</head>
 
 	<body>
-		<div id="grid">
-			<p id="scoreLabel">0</p>
-		</div>
-
 		<div id="startScreen" class="popup">
 			<div class="content">
 				<h1>Auto<wbr/>snek</h1>
 
-				<p id="gameOverScoreLabel">Score: 123</p>
-
-				<div id="buttonContainer" onclick="starter.prepare();" onkeypress="starter.prepare();" tabindex="0">
-					<div id="startIcon" class="icon-play"></div>
-					<div>Start</div>
+				<div id="buttonContainer">
+					<button class="secondary" onclick="fadeLink('./serial/index.html');">Serial</button>
+					<button class="secondary" onclick="fadeLink('./parallel/index.html');">Parallel</button>
 				</div>
 			</div>
 		</div>
