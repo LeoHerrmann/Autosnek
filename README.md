@@ -1,5 +1,5 @@
 # Autosnek
-A snake trying to determine the best possible movement considering growth and survival possibilities
+A snake trying to determine the best possible movements considering growth and survival possibilities
 
 
 ## Screenshots
