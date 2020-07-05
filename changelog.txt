@@ -1,5 +1,5 @@
 05.07.2020
-Screenshots updated
+README updated
 
 04.07.2020
 Singlethreaded and multithreaded variant were merged into a single application
