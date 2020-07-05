@@ -8,23 +8,23 @@ var movingDirection;
 var moveInterval;
 var score;
 
-var processing_times = {
+var processingTimes = {
 	list: [],
 
 	getAverage: function() {
 		var sum = 0;
 
-		for (element of processing_times.list) {
+		for (element of processingTimes.list) {
 		  sum += element;
 		}
 
-		return sum / processing_times.list.length;
+		return sum / processingTimes.list.length;
 	},
 
 	getMaximum: function() {
 		var maximum = 0;
 
-		for (element of processing_times.list) {
+		for (element of processingTimes.list) {
 			if (element > maximum) {
 				maximum = element;
 			}
@@ -39,7 +39,7 @@ var processing_times = {
 var starter = {
 	prepare: function() {
 		score = 0;
-		processing_times.list = [];
+		processingTimes.list = [];
 
 		starter.createGrid(gridSize);
 		starter.createSnake();
@@ -124,7 +124,7 @@ var starter = {
 			}
 
 			endTime = new Date().getTime();
-			processing_times.list.push(endTime - startTime);
+			processingTimes.list.push(endTime - startTime);
 		}, speed);
 	}
 };
