@@ -1,5 +1,4 @@
 var gridSize;
-var snakeLength;
 var originalDepth;
 
 
@@ -10,8 +9,7 @@ self.addEventListener("message", async function(e) {
     var move_return = data[0];
     var depth = data[1];
 	gridSize = data[2];
-	snakeLength = data[3];
-	originalDepth = data[4];
+	originalDepth = data[3];
 
     if (move_return[1] != -1) {
 		if (depth > originalDepth - 2) {
@@ -90,7 +88,7 @@ async function survivalPossible(depth, tempGrid) {
 		if (move_up[1] != -1) {
 			upWorker = new Worker("./survivalWorker.js");
 			upWorker.onmessage = pushWorkerResult;
-			upWorker.postMessage(JSON.stringify([move_up, depth - 1, gridSize, snakeLength, originalDepth]));
+			upWorker.postMessage(JSON.stringify([move_up, depth - 1, gridSize, originalDepth]));
 		}
 		else {
 			survivalPossibilities.push(false);
@@ -99,7 +97,7 @@ async function survivalPossible(depth, tempGrid) {
 		if (move_right[1] != -1) {
 			rightWorker = new Worker("./survivalWorker.js");
 			rightWorker.onmessage = pushWorkerResult;
-			rightWorker.postMessage(JSON.stringify([move_right, depth - 1, gridSize, snakeLength, originalDepth]));
+			rightWorker.postMessage(JSON.stringify([move_right, depth - 1, gridSize, originalDepth]));
 		}
 		else {
 			survivalPossibilities.push(false);
@@ -108,7 +106,7 @@ async function survivalPossible(depth, tempGrid) {
 		if (move_down[1] != -1) {
 			downWorker = new Worker("./survivalWorker.js");
 			downWorker.onmessage = pushWorkerResult;
-			downWorker.postMessage(JSON.stringify([move_down, depth - 1, gridSize, snakeLength, originalDepth]));
+			downWorker.postMessage(JSON.stringify([move_down, depth - 1, gridSize, originalDepth]));
 		}
 		else {
 			survivalPossibilities.push(false);
@@ -117,7 +115,7 @@ async function survivalPossible(depth, tempGrid) {
 		if (move_left[1] != -1) {
 			leftWorker = new Worker("./survivalWorker.js");
 			leftWorker.onmessage = pushWorkerResult;
-			leftWorker.postMessage(JSON.stringify([move_left, depth - 1, gridSize, snakeLength, originalDepth]));
+			leftWorker.postMessage(JSON.stringify([move_left, depth - 1, gridSize, originalDepth]));
 		}
 		else {
 			survivalPossibilities.push(false);
@@ -257,11 +255,42 @@ function move(direction, tempGrid = grid) {
 
 			tempGrid[nextHeadPosition].type = "snake";
 			tempGrid[nextHeadPosition].head = true;
-			tempGrid[nextHeadPosition].disappearIn = snakeLength;
+			tempGrid[nextHeadPosition].disappearIn = getSnakeLength(tempGrid);
+
+			if (success == 1) {
+				tempGrid = growSnake(tempGrid);
+			}
 		}
 	}
 
 	return [tempGrid, success];
+}
+
+
+
+function getSnakeLength(tempGrid) {
+	tempGrid = JSON.parse(JSON.stringify(tempGrid));
+	var length = 0;
+
+	for (let element of tempGrid) {
+		if (element.type == "snake") {
+			length += 1;
+		}
+	}
+
+	return length;
+}
+
+
+
+function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
+	for (let field in tempGrid) {
+		if (tempGrid[field].type == "snake") {
+			tempGrid[field].disappearIn += 1;
+		}
+	}
+
+	return tempGrid;
 }
 
 

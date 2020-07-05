@@ -3,7 +3,6 @@ var speed = 75;
 var maxSurvivalCheckDepth = 25;
 
 var grid;
-var snakeLength;
 var movingDirection;
 var moveInterval;
 var score;
@@ -82,7 +81,6 @@ var starter = {
 	},
 
 	createSnake: function() {
-		snakeLength = 1;
 		grid[gridSize + 1] = {type: "snake", disappearIn: 1, head: true};
 	},
 
@@ -98,8 +96,8 @@ var starter = {
 			grid = moveReturn[0];
 
 			if (moveSuccess == 1) {
-				grid = growSnake();
 				grid = createFood();
+				score += 1;
 			}
 
 			if (moveSuccess >= 0) {
@@ -154,9 +152,6 @@ function growSnake(tempGrid = JSON.parse(JSON.stringify(grid))) {
 			tempGrid[field].disappearIn += 1;
 		}
 	}
-
-	snakeLength++;
-	score++;
 
 	return tempGrid;
 }
@@ -229,11 +224,29 @@ function move(direction, tempGrid = grid) {
 
 			tempGrid[nextHeadPosition].type = "snake";
 			tempGrid[nextHeadPosition].head = true;
-			tempGrid[nextHeadPosition].disappearIn = snakeLength;
+			tempGrid[nextHeadPosition].disappearIn = getSnakeLength(tempGrid);
+
+			if (success == 1) {
+				tempGrid = growSnake(tempGrid);
+			}
 		}
 	}
 
 	return [tempGrid, success];
+}
+
+
+function getSnakeLength(tempGrid) {
+	tempGrid = JSON.parse(JSON.stringify(tempGrid));
+	var length = 0;
+
+	for (let element of tempGrid) {
+		if (element.type == "snake") {
+			length += 1;
+		}
+	}
+
+	return length;
 }
 
 
@@ -304,6 +317,7 @@ function autoDirection() {
 
     //rate movements negatively if they inevitably lead to the snake dying
 	var survivalCheckDepth;
+	var snakeLength = getSnakeLength(grid);
 
 	if (snakeLength < maxSurvivalCheckDepth) {
 		survivalCheckDepth = snakeLength;
