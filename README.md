@@ -3,7 +3,7 @@ A snake trying to determine the best possible movements considering growth and s
 
 
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/53840228/85923782-49b9c680-b88e-11ea-8f12-d2a49f0d1e84.png" alt="Screenshot 1" width="300"/> <img src="https://user-images.githubusercontent.com/53840228/85923783-4a525d00-b88e-11ea-895c-3fd724f90d0f.png" alt="Screenshot 2" width="300"/>
+<img src="https://user-images.githubusercontent.com/53840228/86528238-61083d80-bea6-11ea-851a-d523e42443ce.png" alt="Screenshot 1" width="300"/> <img src="https://user-images.githubusercontent.com/53840228/86528239-62396a80-bea6-11ea-901d-3e596be5ef2d.png" alt="Screenshot 2" width="300"/> <img src="https://user-images.githubusercontent.com/53840228/85923783-4a525d00-b88e-11ea-895c-3fd724f90d0f.png" alt="Screenshot 3" width="300"/>
 
 
 ## How it works
