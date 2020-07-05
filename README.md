@@ -15,7 +15,7 @@ Each step the movements bringing the snake closer to the food source are determi
 
 
 ## Serial vs parallel mode
-The application allows choosing between serial and parallel mode. In serial mode, the entire code runs on the main thread whereas in parallel mode, the work of determining the survival possibilities is split up into multiple threads. The additional time it takes to manage web workers results in serial mode actually having considerably lower average processing times than parallel mode. However, in situations where many possibilities need to be considered, the advantages of parallel processing become clearly visible and contribute to the maximum processing times being substancially shorter in parallel mode than in serial mode.
+The application allows choosing between serial and parallel mode. In serial mode, the entire code runs on the main thread whereas in parallel mode, the task of determining the survival possibilities is split up into and distributed to web workers. The additional time it takes to manage these web workers results in parallel mode actually having considerably longer average processing times than serial mode. However, in situations where many possibilities need to be considered, the advantages of parallel processing become clearly visible and contribute to the maximum processing times being substancially shorter in parallel mode than in serial mode.
 
 
 ## Getting started
