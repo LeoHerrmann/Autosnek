@@ -65,7 +65,7 @@ async function survivalPossible(depth, tempGrid) {
 
 		var pushWorkerResult = function(event) {
 			survivalPossibilities.push(event.data);
-			event.originalTarget.onmessage = undefined;
+			event.target.onmessage = undefined;
 
 			if (event.data === true) {
 				terminateAllWorkers();
