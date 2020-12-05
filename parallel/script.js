@@ -7,6 +7,8 @@ var movingDirection;
 var moveInterval;
 var score;
 
+
+
 var processingTimes = {
 	list: [],
 
@@ -132,6 +134,24 @@ var starter = {
 		}
 	}
 };
+
+
+
+var workerBlobURL;
+
+window.addEventListener("load", async function() {
+	var workerFile;
+
+	var workerFileResponse = await fetch("survivalWorker.js");
+
+	if (workerFileResponse.ok) {
+		workerFile = await workerFileResponse.text();
+	} 
+
+	var workerBlob = new Blob([workerFile], {type: "text/javascript"});
+
+	workerBlobURL = window.URL.createObjectURL(workerBlob);
+});
 
 
 
@@ -466,36 +486,36 @@ async function survivalPossible(depth, tempGrid) {
 		};
 
 		if (move_up[1] != -1) {
-			upWorker = new Worker("./survivalWorker.js");
+			upWorker = new Worker(workerBlobURL);
 			upWorker.onmessage = pushWorkerResult;
-			upWorker.postMessage(JSON.stringify([move_up, depth - 1, gridSize, depth]));
+			upWorker.postMessage(JSON.stringify([move_up, depth - 1, gridSize, depth, workerBlobURL]));
 		}
 		else {
 			survivalPossibilities.push(false);
 		}
 
 		if (move_right[1] != -1) {
-			rightWorker = new Worker("./survivalWorker.js");
+			rightWorker = new Worker(workerBlobURL);
 			rightWorker.onmessage = pushWorkerResult;
-			rightWorker.postMessage(JSON.stringify([move_right, depth - 1, gridSize, depth]));
+			rightWorker.postMessage(JSON.stringify([move_right, depth - 1, gridSize, depth, workerBlobURL]));
 		}
 		else {
 			survivalPossibilities.push(false);
 		}
 
 		if (move_down[1] != -1) {
-			downWorker = new Worker("./survivalWorker.js");
+			downWorker = new Worker(workerBlobURL);
 			downWorker.onmessage = pushWorkerResult;
-			downWorker.postMessage(JSON.stringify([move_down, depth - 1, gridSize, depth]));
+			downWorker.postMessage(JSON.stringify([move_down, depth - 1, gridSize, depth, workerBlobURL]));
 		}
 		else {
 			survivalPossibilities.push(false);
 		}
 
 		if (move_left[1] != -1) {
-			leftWorker = new Worker("./survivalWorker.js");
+			leftWorker = new Worker(workerBlobURL);
 			leftWorker.onmessage = pushWorkerResult;
-			leftWorker.postMessage(JSON.stringify([move_left, depth - 1, gridSize, depth]));
+			leftWorker.postMessage(JSON.stringify([move_left, depth - 1, gridSize, depth, workerBlobURL]));
 		}
 		else {
 			survivalPossibilities.push(false);
